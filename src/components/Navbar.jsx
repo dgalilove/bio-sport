@@ -5,11 +5,11 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full bg-white/10 backdrop-blur-md border-b border-white/20 z-50">
       <div
         className="
-          mx-[30px]             /* 30px margin from left/right */
-          my-[10px]             /* 10px top & bottom space */
+          mx-[30px]
+          my-[10px]
           grid
           text-white
-          h-[80px]              /* total navbar height including padding */
+          h-[80px]
         "
         style={{
           gridTemplateColumns: `repeat(${navItems.length}, 1fr)`,
@@ -19,7 +19,7 @@ export default function Navbar() {
           <div
             key={idx}
             className="
-              grid place-items-center    /* centers using grid only */
+              grid place-items-center
               h-full w-full
               cursor-pointer
               select-none
@@ -31,7 +31,9 @@ export default function Navbar() {
             {idx === 0 ? (
               <h1 className="tracking-tight">{item}</h1>
             ) : (
-              <a href="#">{item}</a>
+              <a href="#" className="block w-full text-center">
+                {item}
+              </a>
             )}
           </div>
         ))}
