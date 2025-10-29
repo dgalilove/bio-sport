@@ -26,7 +26,7 @@ export default function PersonalInfo() {
     setLoading(true);
 
     try {
-      const response = await fetch("https://dgalilove.app.n8n.cloud/webhook/player-info", {
+      const response = await fetch("https://dgalilove.app.n8n.cloud/webhook-test/player-info", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -39,20 +39,31 @@ export default function PersonalInfo() {
       console.log("✅ Full response from n8n:", result);
 
       // 🧠 Handle any structure (flat, nested, or wrapped)
-      const data =
-        result.data || result.body || result || {};
+      // 🧠 Handle any structure (flat, nested, or wrapped)
+const data = result.data || result.body || result || {};
 
-      // 🖼️ Handle logo
-      let logoUrl = data.logoUrl || "";
-      if (logoUrl && !logoUrl.startsWith("http") && !logoUrl.startsWith("data:")) {
-        logoUrl = `data:image/jpeg;base64,${logoUrl}`;
-      }
+// 🖼️ Handle logo
+let logoUrl = data.logoUrl || data.body?.logoUrl || null;
 
-      // 🎨 Handle colors
-      const primaryColor =
-        data.primaryColor || data?.body?.primaryColor || "#1e1b4b";
-      const secondaryColor =
-        data.secondaryColor || data?.body?.secondaryColor || "#ffffff";
+// Ensure it's a proper Base64 string or data URL
+if (logoUrl && typeof logoUrl === "string") {
+  if (!logoUrl.startsWith("http") && !logoUrl.startsWith("data:")) {
+    logoUrl = `data:image/png;base64,${logoUrl}`;
+  }
+} else {
+  logoUrl = null;
+}
+
+// 🎨 Handle colors safely
+const primaryColor =
+  data.primaryColor || data.body?.primaryColor || "#1e1b4b";
+const secondaryColor =
+  data.secondaryColor || data.body?.secondaryColor || "#ffffff";
+const thirdColor =
+  data.thirdColor || data.body?.thirdColor || "#cccccc";
+const fourthColor =
+  data.fourthColor || data.body?.fourthColor || "#000000";
+
 
 
       // ✅ Navigate to main
@@ -62,6 +73,8 @@ export default function PersonalInfo() {
           logoUrl,
           primaryColor,
           secondaryColor,
+          thirdColor,
+          fourthColor
         },
       });
     } catch (err) {
@@ -73,6 +86,8 @@ export default function PersonalInfo() {
           logoUrl: null,
           primaryColor: "#1e1b4b",
           secondaryColor: "#ffffff",
+          thirdColor: "#ffffff",
+          fourthColor:"#ffffff",
         },
       });
     } finally {
